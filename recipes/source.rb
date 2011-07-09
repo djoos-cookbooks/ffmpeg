@@ -70,7 +70,7 @@ template "#{Chef::Config[:file_cache_path]}/ffmpeg-compiled_with_flags" do
   variables(
     :compile_flags => node[:ffmpeg][:compile_flags]
   )
-  notifies :run, "bash[compile_ffmpeg]", :immediately
+  notifies :run, "bash[compile_ffmpeg]"
 end
 
 bash "compile_ffmpeg" do
