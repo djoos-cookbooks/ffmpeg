@@ -28,9 +28,7 @@ ffmpeg_packages.each do |pkg|
   end
 end
 
-node.override[:x264][:git_revision] = node[:ffmpeg][:x264][:revision]
 include_recipe "x264::source"
-node.override[:libvpx][:git_revision] = node[:ffmpeg][:libvpx][:revision]
 include_recipe "libvpx::source"
 
 yasm_package = value_for_platform(
