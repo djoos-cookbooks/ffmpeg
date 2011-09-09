@@ -41,6 +41,3 @@ default[:ffmpeg][:compile_flags] = [
 # JW 07-06-11: Hash of commit or a HEAD should be used - not a tag. Sync action of Git
 # provider will always attempt to update the git clone if a tag is used.
 default[:ffmpeg][:git_revision]   = "ace432f62cdcedf812e7c4d77fc5b03322170fa8" # 0.6.3
-
-default[:ffmpeg][:libvpx][:revision] = "0491c2cfc89cded04de386ae691654c7653aac9b"
-default[:ffmpeg][:x264][:revision] = "stable"
