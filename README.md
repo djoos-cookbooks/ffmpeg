@@ -34,7 +34,7 @@ Ideally create a topic branch for every separate change you make.
 LICENSE and AUTHOR
 ==================
 
-Author:: Jamie Winsor (<jamie@enmasse.com>)
+Author:: Jamie Winsor (<jamie@vialstudios.com>)
 
 Copyright:: 2011, En Masse Entertainment, Inc
 
