@@ -77,5 +77,5 @@ bash "compile_ffmpeg" do
     ./configure --prefix=#{node[:ffmpeg][:prefix]} #{node[:ffmpeg][:compile_flags].join(' ')}
     make clean && make && make install
   EOH
-  creates "#{node[:ffmpeg][:prefix]}/bin/ffmpeg"
+  action :nothing
 end
