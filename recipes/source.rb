@@ -61,7 +61,7 @@ git "#{Chef::Config[:file_cache_path]}/ffmpeg" do
   repository node[:ffmpeg][:git_repository]
   reference node[:ffmpeg][:git_revision]
   action :sync
-  notifies :delete, "file[#{creates_ffmpeg}]"
+  notifies :delete, "file[#{creates_ffmpeg}]", :immediately
 end
 
 # Write the flags used to compile the application to Disk. If the flags
@@ -74,7 +74,7 @@ template "#{Chef::Config[:file_cache_path]}/ffmpeg-compiled_with_flags" do
   variables(
     :compile_flags => node[:ffmpeg][:compile_flags]
   )
-  notifies :delete, "file[#{creates_ffmpeg}]"
+  notifies :delete, "file[#{creates_ffmpeg}]", :immediately
 end
 
 bash "compile_ffmpeg" do
