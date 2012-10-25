@@ -51,11 +51,17 @@ find_prerequisite_packages_by_flags(flags_for_upgrade).each do |pkg|
   end
 end
 
+creates_ffmpeg = "#{node[:ffmpeg][:prefix]}/bin/ffmpeg"
+
+file "#{creates_ffmpeg}" do
+	action :nothing
+end
+
 git "#{Chef::Config[:file_cache_path]}/ffmpeg" do
   repository node[:ffmpeg][:git_repository]
   reference node[:ffmpeg][:git_revision]
   action :sync
-  notifies :run, "bash[compile_ffmpeg]"
+  notifies :delete, "file[#{creates_ffmpeg}]", :immediately
 end
 
 # Write the flags used to compile the application to Disk. If the flags
@@ -68,7 +74,7 @@ template "#{Chef::Config[:file_cache_path]}/ffmpeg-compiled_with_flags" do
   variables(
     :compile_flags => node[:ffmpeg][:compile_flags]
   )
-  notifies :run, "bash[compile_ffmpeg]"
+  notifies :delete, "file[#{creates_ffmpeg}]", :immediately
 end
 
 bash "compile_ffmpeg" do
@@ -77,5 +83,5 @@ bash "compile_ffmpeg" do
     ./configure --prefix=#{node[:ffmpeg][:prefix]} #{node[:ffmpeg][:compile_flags].join(' ')}
     make clean && make && make install
   EOH
-  creates "#{node[:ffmpeg][:prefix]}/bin/ffmpeg"
+  creates "#{creates_ffmpeg}"
 end
