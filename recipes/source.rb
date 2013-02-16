@@ -31,17 +31,15 @@ end
 include_recipe "x264::source"
 include_recipe "libvpx::source"
 
-yasm_package = value_for_platform(
-  [ "ubuntu" ] => { "default" => "yasm" },
-  "default" => "yasm"
-)
-
-package yasm_package do
-  action :upgrade
+case node['platform']
+when "debian","ubuntu"
+  include_recipe "yasm::package"
+else
+  include_recipe "yasm::source"
 end
 
 # Filter the packages that we just built from source via their compile flag
-flags_for_upgrade = node[:ffmpeg][:compile_flags].reject do |flag| 
+flags_for_upgrade = node[:ffmpeg][:compile_flags].reject do |flag|
   ["--enable-libx264", "--enable-libvpx"].include?(flag)
 end
 
