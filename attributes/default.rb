@@ -21,7 +21,7 @@
 
 default[:ffmpeg][:install_method] = :source
 default[:ffmpeg][:prefix] = "/usr/local"
-default[:ffmpeg][:git_repository] = "git://git.videolan.org/ffmpeg.git"
+default[:ffmpeg][:git_repository] = "git://source.ffmpeg.org/ffmpeg.git"
 default[:ffmpeg][:compile_flags] = [
   "--disable-debug",
   "--enable-pthreads",
