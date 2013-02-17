@@ -27,11 +27,20 @@ action :install do
       notifies :create, "ruby_block[notify_updated_#{new_resource.name}]", :immediately
     end
   else
+
+    # File resource needed to delete the "creates" file to trigger the build when something changes
+    # Create it only when the "creates" attribute is not nil, as it is optional
+    file new_resource.creates do
+      action :nothing
+      only_if { !new_resource.creates.nil? }
+    end
+
     file = new_resource.source.split('/').last
     remote_file "#{Chef::Config[:file_cache_path]}/#{file}" do
       mode 00644
       source new_resource.source
-      notifies :run, "bash[install_#{new_resource.name}]", :immediately
+      # Delete the "creates" file to trigger the build
+      notifies :delete, "file[#{new_resource.creates}]", :immediately unless new_resource.creates.nil?
     end
 
     # Write the flags used to compile the application to Disk. If the flags
@@ -44,10 +53,11 @@ action :install do
       variables(
         :compile_flags => new_resource.compile_flags
       )
-      notifies :run, "bash[install_#{new_resource.name}]", :immediately
+      # Delete the "creates" file to trigger the build
+      notifies :delete, "file[#{new_resource.creates}]", :immediately unless new_resource.creates.nil?
     end
 
-    install = bash "install_#{new_resource.name}" do
+    bash "install_#{new_resource.name}" do
       user "root"
       cwd Chef::Config[:file_cache_path]
       code <<-EOH
@@ -57,11 +67,9 @@ action :install do
         make
         make install
       EOH
-      action :nothing
-      notifies :create, "ruby_block[notify_updated_#{new_resource.name}]", :immediately
+      not_if {!new_resource.creates.nil? && ::File.exist?(new_resource.creates)}
+      notifies :create, "ruby_block[notify_updated_#{new_resource.name}]"
     end
-
-    install.run_action(:run) unless !new_resource.creates.nil? && ::File.exist?(new_resource.creates)
   end
 
   ruby_block "notify_updated_#{new_resource.name}" do
