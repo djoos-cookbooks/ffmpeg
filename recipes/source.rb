@@ -19,35 +19,13 @@
 # limitations under the License.
 #
 
-include_recipe "build-essential"
-include_recipe "git"
-
 ffmpeg_packages.each do |pkg|
   package pkg do
     action :purge
   end
 end
 
-include_recipe "x264::source"
-include_recipe "libvpx::source"
-
-case node['platform']
-when "debian","ubuntu"
-  include_recipe "yasm::package"
-else
-  include_recipe "yasm::source"
-end
-
-# Filter the packages that we just built from source via their compile flag
-flags_for_upgrade = node[:ffmpeg][:compile_flags].reject do |flag|
-  ["--enable-libx264", "--enable-libvpx"].include?(flag)
-end
-
-find_prerequisite_packages_by_flags(flags_for_upgrade).each do |pkg|
-  package pkg do
-    action :upgrade
-  end
-end
+include_recipe "ffmpeg::dependencies"
 
 git "#{Chef::Config[:file_cache_path]}/ffmpeg" do
   repository node[:ffmpeg][:git_repository]
