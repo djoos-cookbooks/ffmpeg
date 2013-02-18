@@ -7,7 +7,7 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.2.1"
 
 supports "ubuntu", "10.04"
-supports "amazon"
+supports "amazon", "2012.09"
 
 depends "x264", "~> 0.3.0"
 depends "libvpx", "~> 0.2.0"
