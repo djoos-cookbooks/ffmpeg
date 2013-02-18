@@ -68,7 +68,7 @@ action :install do
         make install
       EOH
       not_if {!new_resource.creates.nil? && ::File.exist?(new_resource.creates)}
-      notifies :create, "ruby_block[notify_updated_#{new_resource.name}]"
+      notifies :create, "ruby_block[notify_updated_#{new_resource.name}]", :immediately
     end
   end
 
