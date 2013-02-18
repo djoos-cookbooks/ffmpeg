@@ -19,43 +19,26 @@
 # limitations under the License.
 #
 
-include_recipe "build-essential"
-include_recipe "git"
-
 ffmpeg_packages.each do |pkg|
   package pkg do
     action :purge
   end
 end
 
-include_recipe "x264::source"
-include_recipe "libvpx::source"
+include_recipe "ffmpeg::dependencies"
 
-yasm_package = value_for_platform(
-  [ "ubuntu" ] => { "default" => "yasm" },
-  "default" => "yasm"
-)
-
-package yasm_package do
-  action :upgrade
-end
-
-# Filter the packages that we just built from source via their compile flag
-flags_for_upgrade = node[:ffmpeg][:compile_flags].reject do |flag| 
-  ["--enable-libx264", "--enable-libvpx"].include?(flag)
-end
-
-find_prerequisite_packages_by_flags(flags_for_upgrade).each do |pkg|
-  package pkg do
-    action :upgrade
-  end
+# File resource needed to delete the ffmpeg binary file to trigger the build when something changes
+creates = "#{node[:ffmpeg][:prefix]}/bin/ffmpeg"
+file creates do
+  action :nothing
 end
 
 git "#{Chef::Config[:file_cache_path]}/ffmpeg" do
   repository node[:ffmpeg][:git_repository]
   reference node[:ffmpeg][:git_revision]
   action :sync
-  notifies :run, "bash[compile_ffmpeg]"
+  # Delete ffmpeg binary file to trigger the build
+  notifies :delete, "file[#{creates}]", :immediately
 end
 
 # Write the flags used to compile the application to Disk. If the flags
@@ -68,7 +51,8 @@ template "#{Chef::Config[:file_cache_path]}/ffmpeg-compiled_with_flags" do
   variables(
     :compile_flags => node[:ffmpeg][:compile_flags]
   )
-  notifies :run, "bash[compile_ffmpeg]"
+  # Delete ffmpeg binary file to trigger the build
+  notifies :delete, "file[#{creates}]", :immediately
 end
 
 bash "compile_ffmpeg" do
@@ -77,5 +61,5 @@ bash "compile_ffmpeg" do
     ./configure --prefix=#{node[:ffmpeg][:prefix]} #{node[:ffmpeg][:compile_flags].join(' ')}
     make clean && make && make install
   EOH
-  creates "#{node[:ffmpeg][:prefix]}/bin/ffmpeg"
+  not_if {::File.exist?(creates)}
 end
