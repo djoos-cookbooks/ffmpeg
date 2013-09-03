@@ -19,7 +19,7 @@
 # limitations under the License.
 #
 
-case node[:ffmpeg][:install_method]
+case node[:ffmpeg][:install_method].to_sym
 when :source
   include_recipe "ffmpeg::source"
 when :package
