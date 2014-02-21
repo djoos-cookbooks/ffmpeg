@@ -13,7 +13,6 @@ default['ffmpeg']['epel']['gpgkey'] = "http://dl.fedoraproject.org/pub/epel/RPM-
 default['ffmpeg']['linuxtech']['baseurl'] = "http://pkgrepo.linuxtech.net/el6/release/" 
 default['ffmpeg']['linuxtech']['gpgkey'] = "http://pkgrepo.linuxtech.net/el6/release/RPM-GPG-KEY-LinuxTECH.NET"
 default['ffmpeg']['compile_flags'] = [
-  "--disable-asm",
   "--disable-debug",
   "--enable-pthreads",
   "--enable-nonfree",

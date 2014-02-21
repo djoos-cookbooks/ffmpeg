@@ -62,9 +62,6 @@ file "#{creates_ffmpeg}" do
     action :nothing
 end
 
-require 'pry'
-binding.pry
-
 git "#{Chef::Config['file_cache_path']}/ffmpeg" do
     repository node['ffmpeg']['git_repository']
     reference node['ffmpeg']['git_revision']
