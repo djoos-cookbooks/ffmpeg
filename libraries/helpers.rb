@@ -34,43 +34,48 @@ module FFMPEG
             case flag
                 when "--enable-libfaac"
                   value_for_platform(
-                    [ "ubuntu" ] => { "default" => [ "libfaac-dev" ] },
+                    [ "centos", "redhat" ] => { "default" => [ "libfaac-devel" ] },
                     "default" => [ "libfaac-dev" ]
                   )
                 when "--enable-libmp3lame"
                   value_for_platform(
-                    [ "ubuntu" ] => { "default" => [ "libmp3lame-dev" ] },
+                    [ "centos", "redhat" ] => { "default" => [ "libmp3lame-devel" ] },
                     "default" => [ "libmp3lame-dev" ]
                   )
                 when "--enable-libtheora"
                   value_for_platform(
-                    [ "ubuntu" ] => { "default" => [ "libtheora-dev" ] },
+                    [ "centos", "redhat" ] => { "default" => [ "libtheora-devel" ] },
                     "default" => [ "libtheora-dev" ]
                   )
                 when "--enable-libvorbis"
                   value_for_platform(
-                    [ "ubuntu" ] => { "default" => [ "libvorbis-dev" ] },
+                    [ "centos", "redhat" ] => { "default" => [ "libvorbis-devel" ] },
                     "default" => [ "libvorbis-dev" ]
                   )
                 when "--enable-libxvid"
                   value_for_platform(
-                    [ "ubuntu" ] => { "default" => [ "libxvidcore-dev" ] },
+                    [ "centos", "redhat" ] => { "default" => [ "libxvidcore-devel" ] },
                     "default" => [ "libxvidcore-dev" ]
                   )
                 when "--enable-libfaad"
                   value_for_platform(
-                    [ "ubuntu" ] => { "default" => [ "libfaad-dev" ] },
+                    [ "centos", "redhat" ] => { "default" => [ "libfaad-devel" ] },
                     "default" => [ "libfaad-dev" ]
                   )
                 when "--enable-libvpx"
                   value_for_platform(
-                    [ "ubuntu" ] => { "default" => [ "libvpx-dev" ] },
+                    [ "centos", "redhat" ] => { "default" => [ "libvpx-devel" ] },
                     "default" => [ "libvpx-dev" ]
                   )
                 when "--enable-libx264"
                   value_for_platform(
-                    [ "ubuntu" ] => { "default" => [ "libx264-dev" ] },
+                    [ "centos", "redhat" ] => { "default" => [ "libx264-devel" ] },
                     "default" => [ "libx264-dev" ]
+                  )
+                when "--enable-libopencore-amrnb"
+                  value_for_platform(
+                    [ "centos", "redhat" ] => { "default" => [ "libopencore-amr-devel" ] },
+                    "default" => [ "libopencore-amr-dev" ]
                   )
                 else
                   []

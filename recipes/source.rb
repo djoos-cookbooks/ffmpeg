@@ -8,6 +8,25 @@
 include_recipe "build-essential"
 include_recipe "git"
 
+# Add needed repos in the case of RHEL/Centos
+if platform_family?("rhel", "centos")
+  include_recipe "yum"
+  
+  yum_repository 'epel' do
+    description 'Extra Packages for Enterprise Linux'
+    mirrorlist node['ffmpeg']['epel']['mirrolist']
+    gpgkey node['ffmpeg']['epel']['gpgkey']
+    action :create
+  end
+
+  yum_repository 'linuxtech' do
+    description 'LinuxTECH.NET el6 production repo'
+    baseurl node['ffmpeg']['linuxtech']['baseurl']
+    gpgkey node['ffmpeg']['linuxtech']['gpgkey']
+    action :create
+  end
+end
+
 ffmpeg_packages.each do |pkg|
     package pkg do
         action :purge
@@ -62,6 +81,8 @@ template "#{Chef::Config['file_cache_path']}/ffmpeg-compiled_with_flags" do
     )
     notifies :delete, "file[#{creates_ffmpeg}]", :immediately
 end
+
+
 
 bash "compile_ffmpeg" do
     cwd "#{Chef::Config['file_cache_path']}/ffmpeg"
