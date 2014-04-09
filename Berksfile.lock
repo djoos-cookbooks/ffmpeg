@@ -1,0 +1,42 @@
+{
+  "sha": "6ef716553a56267bb3eb743ece483db8aa94cecb",
+  "sources": {
+    ".": {
+      "locked_version": "0.3.1",
+      "constraint": "= 0.3.1",
+      "path": "."
+    },
+    "x264": {
+      "locked_version": "0.4.2"
+    },
+    "build-essential": {
+      "locked_version": "1.3.4"
+    },
+    "git": {
+      "locked_version": "2.9.0"
+    },
+    "dmg": {
+      "locked_version": "2.1.4"
+    },
+    "windows": {
+      "locked_version": "1.8.4"
+    },
+    "chef_handler": {
+      "locked_version": "1.1.4"
+    },
+    "runit": {
+      "locked_version": "1.1.0",
+      "constraint": ">= 1.0.0"
+    },
+    "yum": {
+      "locked_version": "3.1.6",
+      "constraint": "~> 3.0"
+    },
+    "yum-epel": {
+      "locked_version": "0.3.4"
+    },
+    "libvpx": {
+      "locked_version": "0.3.2"
+    }
+  }
+}
