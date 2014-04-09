@@ -1,3 +1,4 @@
+name             "ffmpeg"
 maintainer       "David Joos"
 maintainer_email "development@davidjoos.com"
 license          "MIT"
