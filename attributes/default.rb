@@ -15,7 +15,6 @@ default['ffmpeg']['compile_flags'] = [
   "--enable-gpl",
   "--disable-indev=jack",
   "--enable-libx264",
-  "--enable-libfaac",
   "--enable-libmp3lame",
   "--enable-libtheora",
   "--enable-libvorbis",
