@@ -2,7 +2,7 @@
 # Cookbook Name:: ffmpeg
 # Attributes:: default
 #
-# Copyright 2014, David Joos
+# Copyright 2014, Escape Studios
 #
 
 default['ffmpeg']['install_method'] = :source

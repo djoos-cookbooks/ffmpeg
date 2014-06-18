@@ -2,7 +2,7 @@
 # Cookbook Name:: ffmpeg
 # Library:: helpers
 #
-# Copyright 2014, David Joos
+# Copyright 2014, Escape Studios
 #
 
 module FFMPEG

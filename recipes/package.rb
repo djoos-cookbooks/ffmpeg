@@ -2,7 +2,7 @@
 # Cookbook Name:: ffmpeg
 # Recipe:: package
 #
-# Copyright 2014, David Joos
+# Copyright 2014, Escape Studios
 #
 
 ffmpeg_packages.each do |pkg|
