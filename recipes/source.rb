@@ -15,11 +15,11 @@ ffmpeg_packages.each do |pkg|
     end
 end
 
-include_recipe "x264::source"
-include_recipe "libvpx::source"
+include_recipe "x264"
+include_recipe "libvpx"
 
 # Filter the packages that we just built from source via their compile flag
-flags_for_upgrade = node['ffmpeg']['compile_flags'].reject do |flag| 
+flags_for_upgrade = node['ffmpeg']['compile_flags'].reject do |flag|
     ["--enable-libx264", "--enable-libvpx"].include?(flag)
 end
 
