@@ -15,13 +15,11 @@ default['ffmpeg']['compile_flags'] = [
   "--enable-gpl",
   "--disable-indev=jack",
   "--enable-libx264",
-  "--enable-libfaac",
   "--enable-libmp3lame",
   "--enable-libtheora",
   "--enable-libvorbis",
   "--enable-libvpx",
   "--enable-libxvid",
-  "--enable-libfaad"
 ]
 
 # JW 07-06-11: Hash of commit or a HEAD should be used - not a tag. Sync action of Git
