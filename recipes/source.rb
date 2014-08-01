@@ -7,7 +7,7 @@
 
 include_recipe "build-essential"
 include_recipe "git"
-include_recipe "yasm"
+include_recipe "yasm::source"
 
 ffmpeg_packages.each do |pkg|
     package pkg do
@@ -33,6 +33,9 @@ creates_ffmpeg = "#{node['ffmpeg']['prefix']}/bin/ffmpeg"
 
 file "#{creates_ffmpeg}" do
     action :nothing
+    subscribes :delete, "bash[compile_yasm]", :immediately
+    subscribes :delete, "bash[compile_x264]", :immediately
+    subscribes :delete, "bash[compile_libvpx]", :immediately
 end
 
 git "#{Chef::Config[:file_cache_path]}/ffmpeg" do
@@ -61,5 +64,5 @@ bash "compile_ffmpeg" do
         ./configure --prefix=#{node['ffmpeg']['prefix']} #{node['ffmpeg']['compile_flags'].join(' ')}
         make clean && make && make install
     EOH
-    creates "#{creates_ffmpeg}"
+    not_if {  ::File.exists?(creates_ffmpeg) }
 end
