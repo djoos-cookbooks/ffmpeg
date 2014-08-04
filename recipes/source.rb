@@ -12,6 +12,7 @@ include_recipe 'yasm'
 ffmpeg_packages.each do |pkg|
   package pkg do
     action :purge
+    ignore_failure true
   end
 end
 
