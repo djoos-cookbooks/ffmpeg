@@ -6,7 +6,7 @@
 #
 
 ffmpeg_packages.each do |pkg|
-    package pkg do
-        action :upgrade
-    end
+  package pkg do
+    action :upgrade
+  end
 end
