@@ -38,7 +38,7 @@ file "#{creates_ffmpeg}" do
     subscribes :delete, "bash[compile_libvpx]", :immediately
 end
 
-git "#{node['ffmpeg']['build_dir']}/ffmpeg" do
+git node['ffmpeg']['build_dir'] do
     repository node['ffmpeg']['git_repository']
     reference node['ffmpeg']['git_revision']
     action :sync
@@ -59,7 +59,7 @@ template "#{node['ffmpeg']['build_dir']}/ffmpeg-compiled_with_flags" do
 end
 
 bash "compile_ffmpeg" do
-    cwd "#{node['ffmpeg']['build_dir']}/ffmpeg"
+    cwd node['ffmpeg']['build_dir']
     code <<-EOH
         ./configure --prefix=#{node['ffmpeg']['prefix']} #{node['ffmpeg']['compile_flags'].join(' ')}
         make clean && make && make install
