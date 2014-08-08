@@ -38,7 +38,7 @@ file "#{creates_ffmpeg}" do
     subscribes :delete, "bash[compile_libvpx]", :immediately
 end
 
-git "#{Chef::Config[:file_cache_path]}/ffmpeg" do
+git "#{node['ffmpeg']['build_dir']}/ffmpeg" do
     repository node['ffmpeg']['git_repository']
     reference node['ffmpeg']['git_revision']
     action :sync
@@ -47,7 +47,7 @@ end
 
 # Write the flags used to compile the application to Disk. If the flags
 # do not match those that are in the compiled_flags attribute - we recompile
-template "#{Chef::Config[:file_cache_path]}/ffmpeg-compiled_with_flags" do
+template "#{node['ffmpeg']['build_dir']}/ffmpeg-compiled_with_flags" do
     source "compiled_with_flags.erb"
     owner "root"
     group "root"
@@ -59,7 +59,7 @@ template "#{Chef::Config[:file_cache_path]}/ffmpeg-compiled_with_flags" do
 end
 
 bash "compile_ffmpeg" do
-    cwd "#{Chef::Config[:file_cache_path]}/ffmpeg"
+    cwd "#{node['ffmpeg']['build_dir']}/ffmpeg"
     code <<-EOH
         ./configure --prefix=#{node['ffmpeg']['prefix']} #{node['ffmpeg']['compile_flags'].join(' ')}
         make clean && make && make install
