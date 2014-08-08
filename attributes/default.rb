@@ -28,4 +28,4 @@ default['ffmpeg']['compile_flags'] = [
 # provider will always attempt to update the git clone if a tag is used.
 default['ffmpeg']['git_revision'] = "ace432f62cdcedf812e7c4d77fc5b03322170fa8" # 0.6.3
 
-default['ffmpeg']['build_dir'] = "#{Chef::Config[:file_cache_path]}"
+default['ffmpeg']['build_dir'] = "#{Chef::Config[:file_cache_path]}/ffmpeg"
