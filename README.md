@@ -32,7 +32,7 @@ Attributes
 * `node['ffmpeg']['git_repository']` - Location of the source git repository if installing via ':source'
 * `node['ffmpeg']['git_revision']` - Revision of the git repository to install if installing via ':source'
 * `node['ffmpeg']['compile_flags']` - Array of flags to use in compilation process if installing via ':source'
-
+* `node['ffmpeg']['timeout']` - Timeout (seconds) when executing git clone
 References
 ==========
 

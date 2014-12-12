@@ -36,9 +36,12 @@ file creates_ffmpeg do
   action :nothing
 end
 
-git "#{Chef::Config[:file_cache_path]}/ffmpeg" do
+# Foodcritic does not recognize "timeout" yet (https://github.com/acrmp/foodcritic/issues/233)
+# so ingore FC009 on following line until bug is resovled
+git "#{Chef::Config[:file_cache_path]}/ffmpeg" do # ~FC009
   repository node['ffmpeg']['git_repository']
   reference node['ffmpeg']['git_revision']
+  timeout node['ffmpeg']['timeout']
   action :sync
   notifies :delete, "file[#{creates_ffmpeg}]", :immediately
 end
