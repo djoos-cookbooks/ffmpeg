@@ -25,7 +25,10 @@ module FFMPEG
     # Package names returned are determined by the platform running this recipe.
     def ffmpeg_packages
       value_for_platform(
-        ['ubuntu'] => { 'default' => ['ffmpeg'] },
+        'ubuntu' => {
+          %w(14.04) => [],
+          'default' => ['ffmpeg']
+        },
         'default' => ['ffmpeg']
       )
     end
