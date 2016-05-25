@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'ffmpeg::default' do
-  let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+  let(:chef_run) { ChefSpec::ServerRunner.new.converge(described_recipe) }
 
   it 'include ffmpeg::source recipe by default' do
     chef_run.converge(described_recipe)

@@ -1,7 +1,23 @@
 require 'spec_helper'
 
 describe 'ffmpeg::source' do
-  let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+  let(:prerequisite_packages) do
+    %w(
+      libfaac-dev
+      libmp3lame-dev
+      libtheora-dev
+      libxvidcore-dev
+      libfaad-dev
+      libfaad-dev
+    )
+  end
+
+  before do
+    allow_any_instance_of(Chef::Recipe).to receive(:ffmpeg_packages).and_return(%w(ffmpeg))
+    allow_any_instance_of(Chef::Recipe).to receive(:prerequisite_packages_by_flags).and_return(prerequisite_packages)
+  end
+
+  let(:chef_run) { ChefSpec::ServerRunner.new.converge(described_recipe) }
   let(:creates_ffmpeg) { "#{chef_run.node['ffmpeg']['prefix']}/bin/ffmpeg" }
 
   it 'include build-essential::default recipe' do
@@ -29,7 +45,9 @@ describe 'ffmpeg::source' do
   end
 
   it 'install prerequisite_packages_by_flags' do
-    pending 'need a clean way to test this'
+    prerequisite_packages.each do |p|
+      expect(chef_run).to upgrade_package p
+    end
   end
 
   it 'sync ffmpeg git repo' do
