@@ -80,23 +80,24 @@ class Default < Thor
     else
       msg = nil
 
-      if out.empty?
-        msg = "Running `#{cmd}` failed. Run this command directly for more detailed output."
-      else
-        msg = out
-      end
+      msg =
+        if out.empty?
+          "Running `#{cmd}` failed. Run this command directly for more detailed output."
+        else
+          out
+        end
 
-      fail(msg)
+      raise msg
     end
   end
 
-  def sh_with_excode(cmd, dir = source_root, &block)
+  def sh_with_excode(cmd, dir = source_root)
     cmd << ' 2>&1'
     outbuf = ''
 
     Dir.chdir(dir) do
       outbuf = `#{cmd}`
-      block.call(outbuf) if $CHILD_STATUS == 0 && block
+      yield outbuf if $CHILD_STATUS == 0 && block_given?
     end
 
     [outbuf, $CHILD_STATUS]
